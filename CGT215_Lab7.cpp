@@ -45,10 +45,32 @@ int main() {
 	roof.setStatic(true);
 	world.AddPhysicsBody(roof);
 
+	//Square Target
+	PhysicsRectangle target;
+	target.setSize(Vector2f(100, 100));
+	target.setCenter(Vector2f(400, 245));
+	target.setStatic(true);
+	world.AddPhysicsBody(target);
+	bool hit = false;
+	target.onCollision = [&hit](PhysicsBodyCollisionResult result) {
+		hit = true;
+	};
+
+	//Counts when hitting floor
 	int thudCount(0);
 	floor.onCollision = [&thudCount](PhysicsBodyCollisionResult result) {
 		cout << "thud " << thudCount << endl;
 		thudCount++;
+	};
+
+	//Counts when hitting target
+	int hitCount(0);
+	target.onCollision = [&hitCount](PhysicsBodyCollisionResult result) {
+		cout << "hit " << hitCount << endl;
+		hitCount++;
+		if (hitCount == 3) {
+			exit(1);
+		}
 	};
 
 	Clock clock;
@@ -62,12 +84,15 @@ int main() {
 			world.UpdatePhysics(deltaTimeMS);
 			lastTime = currentTime;
 		}
+
+
 		window.clear(Color(0, 0, 0));
 		window.draw(ball);
 		window.draw(floor);
 		window.draw(leftWall);
 		window.draw(rightWall);
 		window.draw(roof);
+		window.draw(target);
 		window.display();
 	}
 }
