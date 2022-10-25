@@ -33,10 +33,17 @@ int main() {
 
 	//Right Wall
 	PhysicsRectangle rightWall;
-	rightWall.setSize(Vector2f(20, 500));
-	rightWall.setCenter(Vector2f(300, 590));
+	rightWall.setSize(Vector2f(20, 1200));
+	rightWall.setCenter(Vector2f(790, 590));
 	rightWall.setStatic(true);
 	world.AddPhysicsBody(rightWall);
+
+	//Roof
+	PhysicsRectangle roof;
+	roof.setSize(Vector2f(800, 20));
+	roof.setCenter(Vector2f(400, 10));
+	roof.setStatic(true);
+	world.AddPhysicsBody(roof);
 
 	int thudCount(0);
 	floor.onCollision = [&thudCount](PhysicsBodyCollisionResult result) {
@@ -60,6 +67,7 @@ int main() {
 		window.draw(floor);
 		window.draw(leftWall);
 		window.draw(rightWall);
+		window.draw(roof);
 		window.display();
 	}
 }
